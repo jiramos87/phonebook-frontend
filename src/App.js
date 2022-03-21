@@ -37,25 +37,24 @@ const App = () => {
       oldID = oldPerson[0].name.id
     }
 
-    let personObject = {
+    let newPerson = {
       name: newName,
       number: newNumber,
       id: persons.length + 1
     }
 
     if(namesArray.includes(newName) && oldPerson.length !== 0) {
-       
        if(oldNumber !== newNumber) {
          if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`) )
           {
-              personObject = {
+              newPerson = {
               name: newName,
               number: newNumber,
               id: oldID
             }
             deletePerson(oldPerson[0]) 
           } else {
-              personObject = {
+              newPerson = {
               name: newName,
               number: oldNumber,
               id: oldID
@@ -64,16 +63,15 @@ const App = () => {
           } 
        } else {
          window.alert(`${newName} is already added to phonebook with the same number`)
-       } 
-       
+       }  
     }
 
     personService
-      .create(personObject)
+      .create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         setSuccessMessage(
-          `Person ${personObject.name} was added to the server`
+          `Person ${newPerson.name} was added to the server`
         )
         setTimeout(() => {
           setSuccessMessage(null)
@@ -95,7 +93,7 @@ const App = () => {
             `Person ${person.name}'s number was changed`
           )
           setTimeout(() => {
-            setSuccessMessage(null)
+            setSuccessMessage(null) 
           }, 5000)
           /* .catch(error => {
             setErrorMessage(
